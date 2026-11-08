@@ -38,6 +38,9 @@ export const TIERS = {
     post: true,
     bloomLevels: 8,
     reeds: 220,
+    cranes: 14,
+    waterLanterns: 46,
+    fireflies: 90,
   },
   medium: {
     dpr: [1, 1.5],
@@ -49,6 +52,9 @@ export const TIERS = {
     post: true,
     bloomLevels: 5,
     reeds: 120,
+    cranes: 10,
+    waterLanterns: 28,
+    fireflies: 60,
   },
   low: {
     dpr: [0.75, 1],
@@ -60,5 +66,8 @@ export const TIERS = {
     post: false,
     bloomLevels: 0,
     reeds: 60,
+    cranes: 6,
+    waterLanterns: 14,
+    fireflies: 30,
   },
 }
