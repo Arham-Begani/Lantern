@@ -8,6 +8,7 @@ import { detectInitialQuality, prefersReducedMotion } from '../lib/quality'
  */
 export const rig = {
   scroll: 0, // 0..1 progress through the story (target, damped in CameraRig)
+  scrollMax: 0, // furthest the visitor has scrolled (water lanterns stay lit)
   hold: 0, // 0..1 how far the hold-to-light gesture has progressed
   glow: 0, // 0..1 how lit the hero lantern is (smoothed)
   flight: 0, // 0..1 release flight timeline
