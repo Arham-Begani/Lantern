@@ -17,6 +17,33 @@ const DESCENT_LINES = [
   <>Some people never heard <em>“thank you.”</em></>,
 ]
 
+/** A thin line at the edge of the screen with an ember that travels down it as you scroll. */
+function ScrollEmber() {
+  const fill = useRef(null)
+  const dot = useRef(null)
+  useEffect(() => {
+    let raf
+    let shown = -1
+    const loop = () => {
+      const p = Math.min(1, Math.max(0, rig.scroll))
+      if (Math.abs(p - shown) > 0.0005) {
+        shown = p
+        if (fill.current) fill.current.style.transform = `scaleY(${p})`
+        if (dot.current) dot.current.style.top = `${p * 100}%`
+      }
+      raf = requestAnimationFrame(loop)
+    }
+    loop()
+    return () => cancelAnimationFrame(raf)
+  }, [])
+  return (
+    <div className="scroll-ember" aria-hidden="true">
+      <div className="scroll-ember-fill" ref={fill} />
+      <div className="scroll-ember-dot" ref={dot} />
+    </div>
+  )
+}
+
 export function Story() {
   const root = useRef(null)
   const reduced = useStore((s) => s.reducedMotion)
@@ -29,7 +56,10 @@ export function Story() {
       trigger: root.current,
       start: 'top top',
       end: 'bottom bottom',
-      onUpdate: (self) => (rig.scroll = self.progress),
+      onUpdate: (self) => {
+        rig.scroll = self.progress
+        rig.scrollMax = Math.max(rig.scrollMax, self.progress)
+      },
     })
     rig.scroll = st.progress
     const chapterTriggers = CHAPTERS.map((c) =>
@@ -83,6 +113,27 @@ export function Story() {
           .from('.lake-copy .lede', { opacity: 0, y: 20, duration: 0.5 }, '-=0.2')
           .to({}, { duration: 0.6 })
           .to('.lake-copy', { opacity: 0, y: -40, duration: 0.5, ease: 'power2.in' })
+          // as the lanterns on the water light toward you
+          .fromTo('.lake-caption', { opacity: 0, y: 30, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.6 })
+          .to({}, { duration: 0.5 })
+          .to('.lake-caption', { opacity: 0, duration: 0.4 })
+      }
+
+      // giant chapter numerals drift through at their own pace
+      if (!reduced) {
+        gsap.utils.toArray('.chapter-num').forEach((el) => {
+          gsap.fromTo(
+            el,
+            { yPercent: 55, opacity: 0 },
+            {
+              keyframes: [
+                { yPercent: 0, opacity: 1, ease: 'none' },
+                { yPercent: -55, opacity: 0, ease: 'none' },
+              ],
+              scrollTrigger: { trigger: el.closest('section'), start: 'top bottom', end: 'bottom top', scrub: 1.2 },
+            }
+          )
+        })
       }
     }, root)
     return () => ctx.revert()
@@ -103,10 +154,14 @@ export function Story() {
           </button>
         ))}
       </nav>
+      <ScrollEmber />
       <main ref={root} className="story" id="story">
         <Hero />
         <section id="descent" className="chapter descent" aria-label="Descent">
           <div className="sticky-frame">
+            <span className="chapter-num" aria-hidden="true">
+              II
+            </span>
             {DESCENT_LINES.map((l, i) => (
               <p key={i} className="descent-line display text-glow">
                 {l}
@@ -116,6 +171,12 @@ export function Story() {
         </section>
         <section id="lake" className="chapter lake" aria-labelledby="lake-title">
           <div className="sticky-frame center">
+            <span className="chapter-num left" aria-hidden="true">
+              III
+            </span>
+            <p className="lake-caption display text-glow">
+              Some thank-yous wait <em>years</em> to be said.
+            </p>
             <div className="lake-copy">
               <h2 id="lake-title" className="display text-glow">
                 Write it. Light it. <em>Let it go.</em>
