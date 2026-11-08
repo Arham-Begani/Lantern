@@ -800,9 +800,14 @@ html:not(.live-glass) .compose-card[data-holding='true'] {
   opacity: calc(1 - var(--reveal));
 }
 
+.compose-card {
+  position: relative;
+  z-index: 2;
+}
 .lantern-hotspot {
   position: fixed;
-  z-index: 15;
+  /* behind the compose card: the form always wins a tap */
+  z-index: 1;
   width: 120px;
   border: 0;
   border-radius: 40%;

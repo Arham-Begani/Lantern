@@ -91,8 +91,9 @@ function LanternHotspot() {
         if (show) {
           el.style.left = `${s.x}px`
           el.style.top = `${s.y}px`
-          el.style.height = `${Math.max(80, s.h * 2.1)}px`
-          el.style.width = `${Math.max(70, s.h * 1.5)}px`
+          // hug the paper itself, so it never reaches over the form
+          el.style.height = `${Math.max(56, s.h * 1.15)}px`
+          el.style.width = `${Math.max(44, s.h * 0.8)}px`
         }
       }
       raf = requestAnimationFrame(loop)
