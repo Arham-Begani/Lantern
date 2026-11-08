@@ -11,6 +11,9 @@ import { Lake } from './Lake'
 import { HeroLantern } from './HeroLantern'
 import { SkyLanterns } from './SkyLanterns'
 import { CameraRig } from './CameraRig'
+import { Cranes } from './Cranes'
+import { WaterLanterns } from './WaterLanterns'
+import { MoonBeams, ShootingStars, Fireflies } from './Atmospherics'
 import { Effects } from './Effects'
 
 const NIGHT = {
@@ -95,6 +98,11 @@ function World() {
       {t.clouds > 0 && <CloudDeck density={t.clouds} segments={t.cloudSegments} />}
       <SkyLanterns count={t.skyLanterns} mirror={t.mirrorDetail} />
       <Lake reeds={t.reeds} />
+      <WaterLanterns count={t.waterLanterns} />
+      <MoonBeams />
+      <Fireflies count={t.fireflies} />
+      <Cranes count={t.cranes} />
+      <ShootingStars />
       <HeroLantern />
       <CameraRig />
       {t.post && <Effects levels={t.bloomLevels} />}
