@@ -531,6 +531,82 @@ html.live-glass .glass {
   }
 }
 
+.chapter-num {
+  position: absolute;
+  top: 8vh;
+  right: 3vw;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(9rem, 30vw, 30rem);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(243, 234, 216, 0.2);
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+}
+.chapter-num.left {
+  right: auto;
+  left: 3vw;
+  top: 12vh;
+}
+.lake-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(16vh + env(safe-area-inset-bottom));
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  max-width: 18ch;
+  box-sizing: content-box;
+  font-size: clamp(2rem, 5vw, 4.6rem);
+  opacity: 0;
+}
+html.reduce-motion .lake-caption {
+  display: none;
+}
+
+.scroll-ember {
+  position: fixed;
+  left: calc(var(--gutter) - 4px);
+  top: 30vh;
+  height: 40vh;
+  width: 1px;
+  z-index: 30;
+  background: rgba(243, 234, 216, 0.14);
+  pointer-events: none;
+}
+.scroll-ember-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 180, 92, 0), rgba(255, 180, 92, 0.85));
+  transform-origin: top;
+  transform: scaleY(0);
+}
+.scroll-ember-dot {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: var(--flame);
+  box-shadow:
+    0 0 10px 3px rgba(255, 180, 92, 0.75),
+    0 0 30px 8px rgba(255, 150, 60, 0.25);
+}
+@media (max-width: 760px) {
+  .scroll-ember {
+    display: none;
+  }
+  .chapter-num {
+    font-size: 52vw;
+  }
+}
+
 .lake-copy {
   max-width: min(92vw, 1100px);
 }
